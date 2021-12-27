@@ -3,18 +3,16 @@
 class singleton{
   private static $instance;
   
-  private function __construct(){
-    echo "hello <BR>";
-  }
-  public function getInstance(){
+  public function __construct(){
     if (null === self::$instance){
-      self::$instance = new singleton();
-      var_dump("first");
+        self::$instance = $conn = mysqli_connect('localhost','root','','mydb');
+        if ($conn){
+            echo "<h1 style='color:green'>connected</h1> <BR>";
+        }
+        var_dump("first object<br>");
       return self::$instance;
     }
-    var_dump("other");
+    var_dump("other object<br>");
     return self::$instance;
-  }
-  
-  
+  }  
 }
