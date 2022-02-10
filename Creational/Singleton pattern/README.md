@@ -38,9 +38,12 @@ new singleton();
 ```
 
 The outputs of this code are:
-'''
-connected 
-'''
+```
+connected
+string(16) "first object"
+string(16) "other object"
+string(16) "other object"
+```
 
 Although three objects were created, the word “connected” was printed only once
 
