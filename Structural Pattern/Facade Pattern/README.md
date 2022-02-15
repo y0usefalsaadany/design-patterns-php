@@ -1,52 +1,62 @@
-# Singleton pattern
-If we have a class for connecting to the database, and if we want to create more than one object for this class, and suppose we create four objects, four objects will be stored in the RAM for one class!
-That's why this pattern was made where you can create more than one number of objects for the same class, but only the first object will be stored in RAM and the rest of the objects will refer to the first object
+#facade pattern
 
-Singleton.php
+Let's say you want to work
+validation
+Enter the user's password, then hash it and store it in the database
+
+But what do you think if you make a class that does all this you just give it the password
+This is the idea of ​​a facade pattern that saves you from doing a lot of tasks
+
+In this example, we will do a validation for the password and then we will make a hash for it. We will not add it to the database so that the example does not become complicated. The purpose is to clarify the idea of ​​the facade pattern.
+
+Let's create a Validate.php file
 ```
 <?php
-
-class singleton{
-  private static $instance;
-  
-  public function __construct(){
-    if (null === self::$instance){
-        self::$instance = $conn = mysqli_connect('localhost','root','','mydb');
-        if ($conn){
-            echo "<h1 style='color:green'>connected</h1> <BR>";
-        }
-        var_dump("first object<br>");
-      return self::$instance;
-    }
-    var_dump("other object<br>");
-    return self::$instance;
-  }  
+class Validate{
+public function passwordValidate($vlaue){
+$pass = trim($password);
+$pass = htmlspecialchars($pass);
+return $pass;
+}
 }
 ```
 
-index.php
+Then let's create PasswordHash.php
 ```
 <?php
 
-spl_autoload_register(function ($class){
-  require $class . '.php';
-});
-
-new singleton();
-new singleton();
-new singleton();
+class PasswordHash{
+public function hashing($validate){
+$hash = md5($validate);
+return $hash."\n";
+}
+}
 ```
 
-The outputs of this code are:
-'''
-connected 
-'''
-
-Although three objects were created, the word “connected” was printed only once
-
-But if we didn't use a singleton pattern, the word would be printed
+Then we make a file facade.php
 ```
-connected
-connected
-connected
+<?php
+
+class Facade{
+protected $pass;
+public function __construct(){
+$this->pass=$validate = new validate();
+}
+public function hashPassword($value){
+$validate = $this->pass->passwordValidate($value);
+$password = new PasswordHash();
+echo $password->hashing($validate);
+}
+}
+```
+
+Now if the developer wants to make a hash of the password, he just makes an object from the facade and then puts the password he wants
+for example:
+```
+$test = new Facade();
+$test->hashPassword("yousef2020");
+```
+The output of this code is
+```
+d41d8cd98f00b204e9800998ecf8427e
 ```

@@ -3,7 +3,7 @@
 class Facade{
 	protected $pass;
 	public function __construct(){
-		$this->pass=$validate = new validate();;
+		$this->pass=$validate = new validate();
 	}
 	public function hashPassword($value){
 		$validate = $this->pass->passwordValidate($value);

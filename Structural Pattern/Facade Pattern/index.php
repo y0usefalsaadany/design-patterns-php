@@ -4,4 +4,4 @@ spl_autoload_register(function ($class){
 });
 
 $test = new Facade();
-$test->hashPassword("hh");
+$test->hashPassword("yousef2020");
